@@ -34,7 +34,10 @@ type Msg
 
 newModel =
   { isCrossTurn = True,
-    squares = [ Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank, Blank ]
+    squares = [
+      Blank, Blank, Blank,
+      Blank, Blank, Blank,
+      Blank, Blank, Blank ]
   }
 
 init : ( Model, Cmd Msg )
