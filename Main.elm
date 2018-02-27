@@ -1,6 +1,7 @@
 import Html exposing (Html, div, text, table, tr, td, p)
 import Html.Attributes exposing (class)
 import List exposing (indexedMap)
+import Utils exposing (..)
 
 main : Program Never Model Msg
 main =
@@ -63,19 +64,6 @@ viewFooter m =
         if m.isCrossTurn then "It's X's turn" else "It's O's turn"
       )]
 
-split : Int -> List a -> List (List a)
-split size list =
-  case List.take size list of
-    [] -> []
-    listHead -> listHead :: split size (List.drop size list)
-
-stringJoin : String -> List String -> String
-stringJoin separator list =
-  List.foldr
-    (\left right ->
-      left ++ if right == "" then right else (separator ++ right)
-    ) "" list
-
 viewRow : List Square -> Html Msg
 viewRow squares =
   Html.li
@@ -85,12 +73,11 @@ viewRow squares =
 viewBoard : List Square -> Html Msg
 viewBoard squares =
   let
-    rows = split 3 squares
+    rows = chunkify 3 squares
   in
     Html.ul
       []
       (List.map viewRow rows)
 
--- TODO: How to split this up into 3 x 3?
 -- TODO: How to bind events to a click?
 -- TODO: Update should do something
