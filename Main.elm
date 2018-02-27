@@ -54,10 +54,6 @@ view model =
     [ viewBoard model.squares
     , viewFooter model ]
 
-squareToHtml : Square -> Html Msg
-squareToHtml sq =
-  Html.li [] [ text (squareToString sq ) ]
-
 viewFooter : Model -> Html Msg
 viewFooter m =
   div [ class
@@ -67,12 +63,33 @@ viewFooter m =
         if m.isCrossTurn then "It's X's turn" else "It's O's turn"
       )]
 
+split : Int -> List a -> List (List a)
+split size list =
+  case List.take size list of
+    [] -> []
+    listHead -> listHead :: split size (List.drop size list)
+
+stringJoin : String -> List String -> String
+stringJoin separator list =
+  List.foldr
+    (\left right ->
+      left ++ if right == "" then right else (separator ++ right)
+    ) "" list
+
+viewRow : List Square -> Html Msg
+viewRow squares =
+  Html.li
+    []
+    [ text (stringJoin ", " (List.map squareToString squares)) ]
 
 viewBoard : List Square -> Html Msg
 viewBoard squares =
-  Html.ul
-    []
-    (List.map squareToHtml squares)
+  let
+    rows = split 3 squares
+  in
+    Html.ul
+      []
+      (List.map viewRow rows)
 
 -- TODO: How to split this up into 3 x 3?
 -- TODO: How to bind events to a click?
