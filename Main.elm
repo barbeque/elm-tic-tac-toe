@@ -48,11 +48,22 @@ view : Model -> Html Msg
 view model =
   div
     [ class "tictactoe-wrapper" ]
-    [ viewBoard model.squares ]
+    [ viewBoard model.squares
+    , viewFooter model ]
 
 squareToHtml : Square -> Html Msg
 squareToHtml sq =
   Html.li [] [ text (squareToString sq ) ]
+
+viewFooter : Model -> Html Msg
+viewFooter m =
+  div [ class
+    (if m.isCrossTurn then "cross-turn" else "nought-turn" )
+      ]
+      [ text (
+        if m.isCrossTurn then "It's X's turn" else "It's O's turn"
+      )]
+
 
 viewBoard : List Square -> Html Msg
 viewBoard squares =
