@@ -70,3 +70,5 @@ viewBoard squares =
   Html.ul
     []
     (List.map squareToHtml squares)
+
+-- TODO: How to split this up into 3 x 3?
