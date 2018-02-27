@@ -72,3 +72,5 @@ viewBoard squares =
     (List.map squareToHtml squares)
 
 -- TODO: How to split this up into 3 x 3?
+-- TODO: How to bind events to a click?
+-- TODO: Update should do something
