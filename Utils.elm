@@ -12,3 +12,12 @@ stringJoin separator list =
     (\left right ->
       left ++ if right == "" then right else (separator ++ right)
     ) "" list
+
+any : (a -> Bool) -> List a -> Bool
+any f stuff =
+  let results =
+    List.map f stuff
+  in
+    List.foldr
+      (\left right -> if left then left else right )
+      False results
