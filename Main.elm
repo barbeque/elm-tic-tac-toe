@@ -3,6 +3,7 @@ import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import List exposing (indexedMap)
 import Utils exposing (..)
+import Styles exposing (..)
 
 main : Program Never Model Msg
 main =
@@ -89,19 +90,6 @@ viewRow squares =
   div
     [ class "tictactoe-row" ]
     (List.map viewSquare squares ++ [Html.br [][]])
-
-squareStyle : Html.Attribute msg
-squareStyle =
-  style
-    [ ("border", "1px solid black")
-    , ("width", "75px")
-    , ("height", "75px")
-    , ("display", "inline-block")
-    , ("vertical-align", "top")
-    , ("text-align", "center")
-    , ("margin", "1px")
-    , ("font-size", "70px")
-    ]
 
 viewSquare : (Square, Int) -> Html Msg
 viewSquare (sq, i) =
