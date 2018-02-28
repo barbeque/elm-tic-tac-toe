@@ -21,3 +21,8 @@ any f stuff =
     List.foldr
       (\left right -> if left then left else right )
       False results
+
+-- TODO: This MUST exist in the stdlib somewhere
+withIndex : List a -> List (a, Int)
+withIndex stuff =
+  List.indexedMap (\i e -> (e, i)) stuff

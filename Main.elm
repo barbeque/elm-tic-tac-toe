@@ -30,6 +30,8 @@ type alias Model =
   , squares : List Square
   }
 
+type alias IndexedSquare = Square Int
+
 type Msg
   = MarkSpot Int
   | NewGame
@@ -82,7 +84,7 @@ viewFooter m =
         if m.isCrossTurn then "It's X's turn" else "It's O's turn"
       )]
 
-viewRow : List Square -> Html Msg
+viewRow : List (Square, Int) -> Html Msg
 viewRow squares =
   div
     [ class "tictactoe-row" ]
@@ -98,13 +100,13 @@ squareStyle =
     , ("vertical-align", "top")
     ]
 
-viewSquare : Square -> Html Msg
-viewSquare sq =
+viewSquare : (Square, Int) -> Html Msg
+viewSquare (sq, i) =
   div
     [
       class "tictactoe-square",
       squareStyle,
-      onClick (MarkSpot 0)
+      onClick (MarkSpot i)
     ]
     [
       text (
@@ -118,7 +120,10 @@ viewSquare sq =
 viewBoard : List Square -> Html Msg
 viewBoard squares =
   let
-    rows = chunkify 3 squares
+    rows =
+      squares
+        |> withIndex
+        |> chunkify 3
   in
     Html.div
       []
