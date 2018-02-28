@@ -96,7 +96,8 @@ viewSquare : Square -> Html Msg
 viewSquare sq =
   div
     [
-      class "tictactoe-square"
+      class "tictactoe-square",
+      onClick (MarkSpot 0)
     ]
     [
       text (
