@@ -1,5 +1,6 @@
 import Html exposing (Html, div, text, table, tr, td, p)
 import Html.Attributes exposing (class)
+import Html.Events exposing (onClick)
 import List exposing (indexedMap)
 import Utils exposing (..)
 
@@ -50,6 +51,7 @@ update msg model =
   case msg of
     NewGame -> init
     MarkSpot n ->
+      -- TODO: Detect winning/conclusion
       {
         squares = marked model.isCrossTurn n model.squares,
         isCrossTurn = not model.isCrossTurn
@@ -84,7 +86,26 @@ viewRow : List Square -> Html Msg
 viewRow squares =
   Html.li
     []
-    [ text (stringJoin ", " (List.map squareToString squares)) ]
+    [
+      div
+        [ class "tictactoe-row" ]
+        (List.map viewSquare squares ++ [Html.br [][]])
+    ]
+
+viewSquare : Square -> Html Msg
+viewSquare sq =
+  div
+    [
+      class "tictactoe-square"
+    ]
+    [
+      text (
+        case sq of
+          Blank -> " "
+          Nought -> "O"
+          Cross -> "X"
+      )
+    ]
 
 viewBoard : List Square -> Html Msg
 viewBoard squares =
