@@ -100,6 +100,7 @@ squareStyle =
     , ("vertical-align", "top")
     , ("text-align", "center")
     , ("margin", "1px")
+    , ("font-size", "70px")
     ]
 
 viewSquare : (Square, Int) -> Html Msg
