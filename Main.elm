@@ -46,7 +46,23 @@ init =
   newModel ! []
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model = model ! [] -- TODO: more shit
+update msg model =
+  case msg of
+    NewGame -> init
+    MarkSpot n ->
+      {
+        squares = marked model.isCrossTurn n model.squares,
+        isCrossTurn = not model.isCrossTurn
+      } ! []
+
+marked : Bool -> Int -> List Square -> List Square
+marked isCrossTurn whichSquare squares =
+  let newSquare =
+    if isCrossTurn then Cross else Nought
+  in
+    List.indexedMap
+      (\i sq -> if whichSquare == i then newSquare else sq)
+      squares
 
 view : Model -> Html Msg
 view model =
