@@ -87,8 +87,8 @@ whoWon squares =
     else if (threeInARow a0 a4 a8) then a0
     else if (threeInARow a2 a4 a6) then a2
     else if (threeInARow a0 a3 a6) then a0
-    else if (threeInARow a1 a4 a7) then a0
-    else if (threeInARow a2 a5 a8) then a0
+    else if (threeInARow a1 a4 a7) then a1
+    else if (threeInARow a2 a5 a8) then a2
     else
       Blank -- Not handled yet
 
