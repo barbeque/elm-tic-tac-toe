@@ -56,6 +56,7 @@ update msg model =
             -- this move won the game!
             let theWinner = whoWon result.squares
             in { result | winner = theWinner } ! []
+          -- TODO: Detect draw games
           else
             result ! [] -- the game continues
 
