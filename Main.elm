@@ -4,6 +4,7 @@ import Html.Events exposing (onClick)
 import List exposing (indexedMap)
 import Utils exposing (..)
 import Styles exposing (..)
+import Array exposing (fromList, get)
 
 main : Program Never Model Msg
 main =
@@ -54,11 +55,24 @@ update msg model =
   case msg of
     NewGame -> init
     MarkSpot n ->
-      -- TODO: Detect winning/conclusion
-      {
-        squares = marked model.isCrossTurn n model.squares,
-        isCrossTurn = not model.isCrossTurn
-      } ! []
+      if wasAlreadyMarked n model.squares then
+        model ! []
+      else
+        -- TODO: Detect winning/conclusion
+        {
+          squares = marked model.isCrossTurn n model.squares,
+          isCrossTurn = not model.isCrossTurn
+        } ! []
+
+wasAlreadyMarked : Int -> List Square -> Bool
+wasAlreadyMarked target squares =
+  let
+    this =
+      Array.fromList squares |> Array.get target
+  in
+    case this of
+      Just Blank -> False
+      _ -> True
 
 marked : Bool -> Int -> List Square -> List Square
 marked isCrossTurn whichSquare squares =
@@ -119,6 +133,3 @@ viewBoard squares =
     Html.div
       []
       (List.map viewRow rows)
-
--- TODO: How to bind events to a click?
--- TODO: Update should do something
