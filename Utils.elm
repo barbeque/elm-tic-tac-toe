@@ -1,4 +1,5 @@
 module Utils exposing (..)
+import Array exposing (fromList, get)
 
 chunkify : Int -> List a -> List (List a)
 chunkify size list =
@@ -26,3 +27,16 @@ any f stuff =
 withIndex : List a -> List (a, Int)
 withIndex stuff =
   List.indexedMap (\i e -> (e, i)) stuff
+
+forceGet : Int -> List a -> a
+forceGet i stuff =
+  let maybeValue =
+    stuff
+      |> fromList
+      |> get i
+  in
+    case maybeValue of
+      Just y -> y
+      -- Since the array is fixed-size this should never
+      -- ever happen...
+      Nothing -> Debug.crash "error: fromJust nothing!"
