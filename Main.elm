@@ -27,7 +27,8 @@ newModel =
     squares = [
       Blank, Blank, Blank,
       Blank, Blank, Blank,
-      Blank, Blank, Blank ]
+      Blank, Blank, Blank ],
+    winner = Blank
   }
 
 init : ( Model, Cmd Msg )
@@ -39,14 +40,24 @@ update msg model =
   case msg of
     NewGame -> init
     MarkSpot n ->
-      if wasAlreadyMarked n model.squares then
+      if model.winner /= Blank then
+        model ! [] -- can't move if we're done playing
+      else if wasAlreadyMarked n model.squares then
         model ! []
       else
-        -- TODO: Detect winning/conclusion
-        {
-          squares = marked model.isCrossTurn n model.squares,
-          isCrossTurn = not model.isCrossTurn
-        } ! []
+        let result =
+          {
+            squares = marked model.isCrossTurn n model.squares,
+            isCrossTurn = not model.isCrossTurn,
+            winner = model.winner -- there must be a shorthand for this
+          }
+        in
+          if whoWon result.squares /= Blank then
+            -- this move won the game!
+            let theWinner = whoWon result.squares
+            in { result | winner = theWinner } ! []
+          else
+            result ! [] -- the game continues
 
 whoWon : List Square -> Square
 whoWon squares =
@@ -72,7 +83,12 @@ whoWon squares =
   in
     if (threeInARow a0 a1 a2) then a0
     else if (threeInARow a3 a4 a5) then a3
-    else if (threeInARow a6 a7 a8) then a3
+    else if (threeInARow a6 a7 a8) then a6
+    else if (threeInARow a0 a4 a8) then a0
+    else if (threeInARow a2 a4 a6) then a2
+    else if (threeInARow a0 a3 a6) then a0
+    else if (threeInARow a1 a4 a7) then a0
+    else if (threeInARow a2 a5 a8) then a0
     else
       Blank -- Not handled yet
 

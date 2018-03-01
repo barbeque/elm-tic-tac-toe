@@ -21,7 +21,10 @@ viewFooter m =
     (if m.isCrossTurn then "cross-turn" else "nought-turn" )
       ]
       [ text (
-        if m.isCrossTurn then "It's X's turn" else "It's O's turn"
+        if m.winner /= Blank then
+          "The winner is " ++ (squareToString m.winner) ++ "!!!"
+        else
+          if m.isCrossTurn then "It's X's turn" else "It's O's turn"
       )]
 
 viewRow : List (Square, Int) -> Html Msg
@@ -29,6 +32,13 @@ viewRow squares =
   div
     [ class "tictactoe-row" ]
     (List.map viewSquare squares ++ [Html.br [][]])
+
+squareToString : Square -> String
+squareToString sq =
+  case sq of
+    Blank -> " "
+    Nought -> "O"
+    Cross -> "X"
 
 viewSquare : (Square, Int) -> Html Msg
 viewSquare (sq, i) =
@@ -40,10 +50,7 @@ viewSquare (sq, i) =
     ]
     [
       text (
-        case sq of
-          Blank -> " "
-          Nought -> "O"
-          Cross -> "X"
+        squareToString sq
       )
     ]
 

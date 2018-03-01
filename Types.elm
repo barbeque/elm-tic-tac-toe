@@ -8,6 +8,7 @@ type Square
 type alias Model =
   { isCrossTurn : Bool
   , squares : List Square
+  , winner : Square
   }
 
 type alias IndexedSquare = Square Int
