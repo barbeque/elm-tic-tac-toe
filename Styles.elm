@@ -2,6 +2,7 @@ module Styles exposing (..)
 
 import Html exposing (Attribute)
 import Html.Attributes exposing(style)
+import InlineHover exposing(hover)
 
 squareStyle : Html.Attribute msg
 squareStyle =
@@ -15,3 +16,7 @@ squareStyle =
     , ("margin", "1px")
     , ("font-size", "70px"  )
     ]
+
+squareHoverStyle =
+  hover
+    [("background", "#ddd")]

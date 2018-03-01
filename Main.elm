@@ -107,7 +107,7 @@ viewRow squares =
 
 viewSquare : (Square, Int) -> Html Msg
 viewSquare (sq, i) =
-  div
+  squareHoverStyle div
     [
       class "tictactoe-square",
       squareStyle,
