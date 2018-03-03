@@ -15,25 +15,18 @@ main =
     , subscriptions = \_ -> Sub.none
     }
 
-squareToString : Square -> String
-squareToString sq =
-  case sq of
-    Blank -> " "
-    Nought -> "O"
-    Cross -> "X"
-
-newModel =
-  { isCrossTurn = True,
-    squares = [
-      Blank, Blank, Blank,
-      Blank, Blank, Blank,
-      Blank, Blank, Blank ],
-    winner = NotYet
-  }
-
 init : ( Model, Cmd Msg )
 init =
-  newModel ! []
+  let newModel =
+    { isCrossTurn = True,
+      squares = [
+        Blank, Blank, Blank,
+        Blank, Blank, Blank,
+        Blank, Blank, Blank ],
+      winner = NotYet
+    }
+  in
+    newModel ! []
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -61,14 +54,6 @@ update msg model =
 
 whoWon : List Square -> Winner
 whoWon squares =
-  -- case 0: top row all same (0, 1, 2)
-  -- case 1: mid row all same (3, 4, 5)
-  -- case 2: btm row all same (6, 7, 8)
-  -- case 3: diagonal top left -> bottom right (0, 4, 8)
-  -- case 4: diagonal top right -> bottom left (2, 4, 6)
-  -- case 5: left column all same (0, 3, 6)
-  -- case 6: mid column all same (1, 4, 7)
-  -- case 7: right column all same (2, 5, 8)
   let
     a0 = forceGet 0 squares
     a1 = forceGet 1 squares
@@ -79,15 +64,26 @@ whoWon squares =
     a6 = forceGet 6 squares
     a7 = forceGet 7 squares
     a8 = forceGet 8 squares
+    threeInARow =
+      (\a b c ->
+        (a /= Blank) && (a == b) && (b == c))
     -- FIXME: wow this is ugly, there HAS to be a shorter way
   in
+    -- case 0: top row all same (0, 1, 2)
     (if (threeInARow a0 a1 a2) then a0
+    -- case 1: mid row all same (3, 4, 5)
     else if (threeInARow a3 a4 a5) then a3
+    -- case 2: btm row all same (6, 7, 8)
     else if (threeInARow a6 a7 a8) then a6
+    -- case 3: diagonal top left -> bottom right (0, 4, 8)
     else if (threeInARow a0 a4 a8) then a0
+    -- case 4: diagonal top right -> bottom left (2, 4, 6)
     else if (threeInARow a2 a4 a6) then a2
+    -- case 5: left column all same (0, 3, 6)
     else if (threeInARow a0 a3 a6) then a0
+    -- case 6: mid column all same (1, 4, 7)
     else if (threeInARow a1 a4 a7) then a1
+    -- case 7: right column all same (2, 5, 8)
     else if (threeInARow a2 a5 a8) then a2
     else
       Blank -- Either nobody won yet, or nobody won period
@@ -102,10 +98,6 @@ whoWon squares =
                 else
                   NotYet
          )
-
-threeInARow : Square -> Square -> Square -> Bool
-threeInARow a b c =
-  (a /= Blank) && (a == b) && (b == c)
 
 wasAlreadyMarked : Int -> List Square -> Bool
 wasAlreadyMarked target squares =
