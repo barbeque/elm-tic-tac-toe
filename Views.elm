@@ -12,8 +12,15 @@ view : Model -> Html Msg
 view model =
   div
     [ class "tictactoe-wrapper" ]
-    [ viewBoard model.squares
+    [ viewHeader model
+    , viewBoard model.squares
     , viewFooter model ]
+
+viewHeader : Model -> Html Msg
+viewHeader m =
+  Html.h1
+    []
+    [ text "Tic-Tac-Toe!" ]
 
 viewFooter : Model -> Html Msg
 viewFooter m =
