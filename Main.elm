@@ -53,7 +53,7 @@ update msg model =
           }
         in
           if whoWon result.squares /= NotYet then
-            -- this move won the game!
+            -- this move won/tied the game!
             let theWinner = whoWon result.squares
             in { result | winner = theWinner } ! []
           -- TODO: Detect draw games

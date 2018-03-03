@@ -23,6 +23,15 @@ any f stuff =
       (\left right -> if left then left else right )
       False results
 
+all : (a -> Bool) -> List a -> Bool
+all f stuff =
+  let results =
+    List.map f stuff
+  in
+    List.foldr
+      (\left right -> if left && right then True else False)
+      True results
+
 -- TODO: This MUST exist in the stdlib somewhere
 withIndex : List a -> List (a, Int)
 withIndex stuff =
