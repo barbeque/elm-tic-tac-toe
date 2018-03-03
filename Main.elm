@@ -56,7 +56,6 @@ update msg model =
             -- this move won/tied the game!
             let theWinner = whoWon result.squares
             in { result | winner = theWinner } ! []
-          -- TODO: Detect draw games
           else
             result ! [] -- the game continues
 
@@ -91,13 +90,17 @@ whoWon squares =
     else if (threeInARow a1 a4 a7) then a1
     else if (threeInARow a2 a5 a8) then a2
     else
-      Blank -- Not handled yet
+      Blank -- Either nobody won yet, or nobody won period
     )
       |> (\winner ->
             case winner of
               Nought -> NoughtWon
               Cross -> CrossWon
-              _ -> NotYet
+              _ ->
+                if (all (\x -> x /= Blank) squares) then
+                  Draw
+                else
+                  NotYet
          )
 
 threeInARow : Square -> Square -> Square -> Bool

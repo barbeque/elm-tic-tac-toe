@@ -29,13 +29,11 @@ viewFooter m =
 
 describeWinner : Winner -> String
 describeWinner winner =
-  if winner == Draw then
-    "The game is a draw."
-  else
-    case winner of
-      NoughtWon -> "O wins the game!"
-      CrossWon -> "X wins the game!"
-      _ -> "I don't know who won!" -- should be impossible
+  case winner of
+    Draw -> "The game is a draw."
+    NoughtWon -> "O wins the game!"
+    CrossWon -> "X wins the game!"
+    _ -> "I don't know who won!" -- should be impossible
 
 viewRow : List (Square, Int) -> Html Msg
 viewRow squares =
