@@ -28,7 +28,7 @@ newModel =
       Blank, Blank, Blank,
       Blank, Blank, Blank,
       Blank, Blank, Blank ],
-    winner = Blank
+    winner = NotYet
   }
 
 init : ( Model, Cmd Msg )
@@ -40,7 +40,7 @@ update msg model =
   case msg of
     NewGame -> init
     MarkSpot n ->
-      if model.winner /= Blank then
+      if model.winner /= NotYet then
         model ! [] -- can't move if we're done playing
       else if wasAlreadyMarked n model.squares then
         model ! []
@@ -52,7 +52,7 @@ update msg model =
             winner = model.winner -- there must be a shorthand for this
           }
         in
-          if whoWon result.squares /= Blank then
+          if whoWon result.squares /= NotYet then
             -- this move won the game!
             let theWinner = whoWon result.squares
             in { result | winner = theWinner } ! []
@@ -60,7 +60,7 @@ update msg model =
           else
             result ! [] -- the game continues
 
-whoWon : List Square -> Square
+whoWon : List Square -> Winner
 whoWon squares =
   -- case 0: top row all same (0, 1, 2)
   -- case 1: mid row all same (3, 4, 5)
@@ -82,7 +82,7 @@ whoWon squares =
     a8 = forceGet 8 squares
     -- FIXME: wow this is ugly, there HAS to be a shorter way
   in
-    if (threeInARow a0 a1 a2) then a0
+    (if (threeInARow a0 a1 a2) then a0
     else if (threeInARow a3 a4 a5) then a3
     else if (threeInARow a6 a7 a8) then a6
     else if (threeInARow a0 a4 a8) then a0
@@ -92,6 +92,13 @@ whoWon squares =
     else if (threeInARow a2 a5 a8) then a2
     else
       Blank -- Not handled yet
+    )
+      |> (\winner ->
+            case winner of
+              Nought -> NoughtWon
+              Cross -> CrossWon
+              _ -> NotYet
+         )
 
 threeInARow : Square -> Square -> Square -> Bool
 threeInARow a b c =

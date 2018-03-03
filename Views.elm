@@ -21,11 +21,21 @@ viewFooter m =
     (if m.isCrossTurn then "cross-turn" else "nought-turn" )
       ]
       [ text (
-        if m.winner /= Blank then
-          "The winner is " ++ (squareToString m.winner) ++ "!!!"
+        if m.winner /= NotYet then
+          (describeWinner m.winner)
         else
           if m.isCrossTurn then "It's X's turn" else "It's O's turn"
       )]
+
+describeWinner : Winner -> String
+describeWinner winner =
+  if winner == Draw then
+    "The game is a draw."
+  else
+    case winner of
+      NoughtWon -> "O wins the game!"
+      CrossWon -> "X wins the game!"
+      _ -> "I don't know who won!" -- should be impossible
 
 viewRow : List (Square, Int) -> Html Msg
 viewRow squares =

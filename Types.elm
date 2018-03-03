@@ -8,8 +8,14 @@ type Square
 type alias Model =
   { isCrossTurn : Bool
   , squares : List Square
-  , winner : Square
+  , winner : Winner
   }
+
+type Winner
+  = NotYet -- Game not over yet
+  | Draw   -- Game is a draw, nobody wins
+  | NoughtWon
+  | CrossWon
 
 type alias IndexedSquare = Square Int
 
