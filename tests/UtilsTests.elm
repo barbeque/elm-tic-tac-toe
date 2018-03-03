@@ -4,7 +4,7 @@ import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 
-import Utils exposing (all, any)
+import Utils exposing (all, any, stringJoin)
 
 suite : Test
 suite =
@@ -48,5 +48,35 @@ suite =
                   f = (\x -> x == 10)
                 in
                   Expect.equal True (any f input)
+      ]
+    , describe "stringJoin"
+      [ test "works reasonably for a simple case" <|
+          \_ -> let
+                  input = ["hello", "world"]
+                  separator = ", "
+                in
+                  Expect.equal "hello, world"
+                    (stringJoin separator input)
+      , test "works ok for a single word case" <|
+          \_ -> let
+                  input = ["hello"]
+                  separator = ", "
+                in
+                  Expect.equal "hello"
+                    (stringJoin separator input)
+      , test "works on an empty list" <|
+          \_ -> let
+                  input = []
+                  separator = ", "
+                in
+                  Expect.equal ""
+                    (stringJoin separator input)
+      , test "honours custom separators" <|
+          \_ -> let
+                  input = ["goodbye", "world"]
+                  separator = "!!"
+                in
+                  Expect.equal "goodbye!!world"
+                    (stringJoin separator input)
       ]
     ]
