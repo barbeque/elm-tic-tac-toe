@@ -1,6 +1,6 @@
 module Views exposing(view)
 
-import Html exposing (Html, div, span, text, table, tr, td, p)
+import Html exposing (Html, div, span, text, table, tr, td, p, button)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 
@@ -20,12 +20,14 @@ viewFooter m =
   div [ class
     (if m.isCrossTurn then "cross-turn" else "nought-turn" )
       ]
-      [ text (
-        if m.winner /= NotYet then
-          (describeWinner m.winner)
-        else
-          if m.isCrossTurn then "It's X's turn" else "It's O's turn"
-      )]
+      (if m.winner /= NotYet then
+        [ text(describeWinner m.winner)
+        , Html.br [][]
+        , button [ onClick NewGame ] [ text "Play Again" ]
+        ]
+      else
+        [text (if m.isCrossTurn then "It's X's turn" else "It's O's turn")]
+      )
 
 describeWinner : Winner -> String
 describeWinner winner =
