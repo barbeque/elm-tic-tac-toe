@@ -64,9 +64,6 @@ whoWon squares =
     a6 = forceGet 6 squares
     a7 = forceGet 7 squares
     a8 = forceGet 8 squares
-    threeInARow =
-      (\a b c ->
-        (a /= Blank) && (a == b) && (b == c))
     -- FIXME: wow this is ugly, there HAS to be a shorter way
   in
     -- case 0: top row all same (0, 1, 2)
@@ -98,6 +95,10 @@ whoWon squares =
                 else
                   NotYet
          )
+
+threeInARow : Square -> Square -> Square -> Bool
+threeInARow a b c =
+  (a /= Blank) && (a == b) && (b == c)
 
 wasAlreadyMarked : Int -> List Square -> Bool
 wasAlreadyMarked target squares =

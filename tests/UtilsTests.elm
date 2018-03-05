@@ -4,7 +4,7 @@ import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
 
-import Utils exposing (all, any, stringJoin)
+import Utils exposing (all, any, stringJoin, chunkify)
 
 suite : Test
 suite =
@@ -78,5 +78,13 @@ suite =
                 in
                   Expect.equal "goodbye!!world"
                     (stringJoin separator input)
+      ]
+    , describe "chunkify"
+      [ test "works for the 9-square case (Tic Tac Toe)" <|
+          \_ -> let
+                  input = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                in
+                  Expect.equal [[1,2,3],[4,5,6],[7,8,9]]
+                    (chunkify 3 input)
       ]
     ]
