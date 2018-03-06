@@ -11,7 +11,8 @@ import Types exposing(..)
 view : Model -> Html Msg
 view model =
   div
-    [ class "tictactoe-wrapper" ]
+    [ class "tictactoe-wrapper"
+    , housingStyle ]
     [ viewHeader model
     , viewBoard model.squares
     , viewFooter model ]

@@ -4,6 +4,12 @@ import Html exposing (Attribute)
 import Html.Attributes exposing(style)
 import InlineHover exposing(hover)
 
+housingStyle : Html.Attribute msg
+housingStyle =
+  style
+    [ ("text-align", "center")
+    ]
+
 squareStyle : Html.Attribute msg
 squareStyle =
   style
