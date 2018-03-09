@@ -19,6 +19,9 @@ suite =
     , test "returns false for X, O, X" <|
         \_ -> threeInARow Cross Nought Cross
                 |> Expect.equal False
+    , test "returns false for O, X, X" <|
+        \_ -> threeInARow Nought Cross Cross
+                |> Expect.equal False
     , test "returns false for Blank, Blank, Blank" <|
         \_ -> threeInARow Blank Blank Blank
                 |> Expect.equal False
