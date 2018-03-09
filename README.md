@@ -1,4 +1,5 @@
 # Elm tic-tac-toe
+[![Build Status](https://travis-ci.org/barbeque/elm-tic-tac-toe.svg?branch=master)](https://travis-ci.org/barbeque/elm-tic-tac-toe)
 
 This repo is a little learning experiment I did to teach myself some fundamentals of [Elm](http://elm-lang.org/).
 
